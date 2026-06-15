@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "480718090637",
+    "project_id": "alerteglaisieres",
+    "storage_bucket": "alerteglaisieres.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480718090637:android:d1f66faa81e8a418b8cdc4",
+        "android_client_info": {
+          "package_name": "com.meresse.alerteecole"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8csKbP7tit0n59dO5ekg39k7qLaaw7-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
