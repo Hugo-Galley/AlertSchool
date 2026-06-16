@@ -11,6 +11,7 @@ export default function DirectorDashboard() {
   const { signOut, user } = useAuth();
   const router = useRouter();
   const [activeType, setActiveType] = useState<string | null>(null);
+  const [activeUser, setActiveUser] = useState<string | null>(null);
   const activeIdRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -19,10 +20,12 @@ export default function DirectorDashboard() {
       if (e.event === "new_alert") {
         activeIdRef.current = e.alert.id;
         setActiveType(e.alert.type);
+        setActiveUser(e.alert.triggering_user?.full_name || null);
         startSignal(e.alert.type);
       } else if (e.event === "stop_alert") {
         activeIdRef.current = null;
         setActiveType(null);
+        setActiveUser(null);
         stopSignal();
       }
     }).then((c) => (close = c));
@@ -36,6 +39,7 @@ export default function DirectorDashboard() {
   const handleStop = async () => {
     const id = activeIdRef.current;
     setActiveType(null);
+    setActiveUser(null);
     stopSignal();
     if (id != null) {
       try {
@@ -57,6 +61,11 @@ export default function DirectorDashboard() {
         <View style={[styles.alertCard, { backgroundColor: activeCfg.color }]}>
           <Text style={styles.alertLabel}>ALERTE EN COURS</Text>
           <Text style={styles.alertType}>{activeCfg.label}</Text>
+          {activeUser && (
+            <Text style={{ color: "#fff", fontSize: 18, marginBottom: 16, opacity: 0.9 }}>
+              Déclenchée par : {activeUser}
+            </Text>
+          )}
           <TouchableOpacity style={styles.stopButton} onPress={handleStop}>
             <Text style={styles.stopButtonText}>🛑 Stopper l'alerte</Text>
           </TouchableOpacity>

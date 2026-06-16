@@ -24,6 +24,10 @@ class UserCreate(BaseModel):
     role: str = "teacher"
 
 
+class PushTokenUpdate(BaseModel):
+    push_token: str
+
+
 class UserOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -32,6 +36,7 @@ class UserOut(BaseModel):
     full_name: str
     role: str
     school_id: int
+    push_token: str | None = None
 
 
 # --- Alerts ---
@@ -48,6 +53,7 @@ class AlertOut(BaseModel):
     triggered_by: int
     active: bool
     created_at: datetime
+    triggering_user: UserOut | None = None
 
 
 TokenResponse.model_rebuild()

@@ -1,6 +1,7 @@
 // Contexte d'authentification (sans Firebase) : charge le profil stocké au démarrage.
 import React, { createContext, useContext, useEffect, useState } from "react";
 import * as auth from "./auth";
+import { registerForPushNotificationsAsync } from "./notifications";
 
 type AuthContextType = {
   user: auth.AppUser | null;
@@ -17,7 +18,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     (async () => {
-      setUser(await auth.getStoredUser());
+      const u = await auth.getStoredUser();
+      setUser(u);
+      if (u) {
+        registerForPushNotificationsAsync();
+      }
       setLoading(false);
     })();
   }, []);
@@ -25,6 +30,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signIn = async (email: string, password: string) => {
     const u = await auth.login(email, password);
     setUser(u);
+    registerForPushNotificationsAsync();
     return u;
   };
 

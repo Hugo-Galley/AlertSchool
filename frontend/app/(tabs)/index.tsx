@@ -17,6 +17,7 @@ import { connectAlerts } from "../../services/websocket";
 export default function TeacherHome() {
   const { signOut, user } = useAuth();
   const [activeType, setActiveType] = useState<string | null>(null);
+  const [activeUser, setActiveUser] = useState<string | null>(null);
   const activeIdRef = useRef<number | null>(null);
 
   // Connexion WebSocket : réception des alertes de l'établissement
@@ -26,10 +27,12 @@ export default function TeacherHome() {
       if (e.event === "new_alert") {
         activeIdRef.current = e.alert.id;
         setActiveType(e.alert.type);
+        setActiveUser(e.alert.triggering_user?.full_name || null);
         startSignal(e.alert.type);
       } else if (e.event === "stop_alert") {
         activeIdRef.current = null;
         setActiveType(null);
+        setActiveUser(null);
         stopSignal();
       }
     }).then((c) => (close = c));
@@ -54,6 +57,7 @@ export default function TeacherHome() {
     const id = activeIdRef.current;
     // Arrêt local immédiat
     setActiveType(null);
+    setActiveUser(null);
     stopSignal();
     if (id != null) {
       try {
@@ -86,6 +90,11 @@ export default function TeacherHome() {
           <Text style={styles.alertText}>
             Alerte en cours : {activeCfg.label}
           </Text>
+          {activeUser && (
+            <Text style={{ marginBottom: 10, fontSize: 16, fontWeight: "500", color: "#333" }}>
+              Déclenchée par : {activeUser}
+            </Text>
+          )}
           <TouchableOpacity
             style={[styles.button, { backgroundColor: "#000" }]}
             onPress={handleStop}

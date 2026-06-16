@@ -9,6 +9,13 @@ export type AlertPayload = {
   triggered_by: number;
   active: boolean;
   created_at: string | null;
+  triggering_user?: {
+    id: number;
+    full_name: string;
+    email: string;
+    role: string;
+    school_id: number;
+  } | null;
 };
 
 export type AlertEvent =

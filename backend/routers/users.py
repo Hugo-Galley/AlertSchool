@@ -2,12 +2,23 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from core.security import hash_password, require_director
+from core.security import hash_password, require_director, get_current_user
 from db.session import get_db
 from models import Role, User
-from schemas import UserCreate, UserOut
+from schemas import UserCreate, UserOut, PushTokenUpdate
 
 router = APIRouter(prefix="/users", tags=["users"])
+
+
+@router.put("/me/push_token")
+def update_push_token(
+    payload: PushTokenUpdate,
+    db: Session = Depends(get_db),
+    current: User = Depends(get_current_user),
+):
+    current.push_token = payload.push_token
+    db.commit()
+    return {"status": "ok"}
 
 
 @router.get("", response_model=list[UserOut])

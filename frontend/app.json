@@ -41,7 +41,20 @@
           }
         }
       ],
-      "expo-audio"
+      "expo-audio",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#e63946",
+          "sounds": [
+            "./assets/sounds/incendie.wav",
+            "./assets/sounds/confinement.wav",
+            "./assets/sounds/medical.wav",
+            "./assets/sounds/exercise.wav"
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

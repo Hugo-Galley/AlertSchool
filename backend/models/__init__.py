@@ -39,6 +39,7 @@ class User(Base):
     password_hash = Column(String(255), nullable=False)
     full_name = Column(String(255), nullable=False)
     role = Column(Enum(Role), nullable=False, default=Role.teacher)
+    push_token = Column(String(255), nullable=True)
     created_at = Column(DateTime, server_default=func.now())
 
     school = relationship("School", back_populates="users")
@@ -53,3 +54,5 @@ class Alert(Base):
     triggered_by = Column(Integer, ForeignKey("users.id"), nullable=False)
     active = Column(Boolean, nullable=False, default=True)
     created_at = Column(DateTime, server_default=func.now())
+
+    triggering_user = relationship("User", foreign_keys=[triggered_by])
