@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS users (
   password_hash VARCHAR(255) NOT NULL,
   full_name     VARCHAR(255) NOT NULL,
   role          ENUM('teacher', 'director') NOT NULL DEFAULT 'teacher',
+  push_token    VARCHAR(255) NULL,
   created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_users_school FOREIGN KEY (school_id) REFERENCES schools(id)
 );
